@@ -1,0 +1,41 @@
+<div class="slot-page">
+  <h2>Placement Slots</h2>
+
+  <label>
+    Select seller:
+    <select [(ngModel)]="selectedSellerId" (change)="onSellerChange()" name="selectedSeller">
+      <option [ngValue]="0" disabled>Choose a seller</option>
+      <option *ngFor="let s of sellers()" [ngValue]="s.id">{{ s.name }}</option>
+    </select>
+  </label>
+
+  <table class="slot-table" *ngIf="selectedSellerId">
+    <thead>
+      <tr>
+        <th>Position</th>
+        <th>Price</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Active</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let slot of slots()">
+        <td>{{ slot.position }}</td>
+        <td>&euro;{{ slot.price }}</td>
+        <td>{{ slot.startDate | date }}</td>
+        <td>{{ slot.endDate | date }}</td>
+        <td>{{ slot.isActive ? 'Yes' : 'No' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form (ngSubmit)="addSlot()" *ngIf="selectedSellerId">
+    <h3>Add slot</h3>
+    <input [(ngModel)]="newSlot.position" name="position" type="number" placeholder="Position" required />
+    <input [(ngModel)]="newSlot.price" name="price" type="number" placeholder="Price" required />
+    <input [(ngModel)]="newSlot.startDate" name="startDate" type="date" required />
+    <input [(ngModel)]="newSlot.endDate" name="endDate" type="date" />
+    <button type="submit">Add slot</button>
+  </form>
+</div>
