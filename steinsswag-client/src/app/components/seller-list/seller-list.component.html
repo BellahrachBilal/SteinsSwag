@@ -1,0 +1,40 @@
+<div class="seller-page">
+  <h2>Sellers</h2>
+
+  <table class="seller-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Pricing model</th>
+        <th>Items</th>
+        <th>Notes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let seller of sellers()">
+        <td>{{ seller.name }}</td>
+        <td>{{ seller.contactHandle }}</td>
+        <td>{{ seller.pricingModel }}</td>
+        <td>{{ seller.itemCount }}</td>
+        <td>{{ seller.notes }}</td>
+        <td><button (click)="deleteSeller(seller.id)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Add seller</h3>
+  <form (ngSubmit)="addSeller()">
+    <input [(ngModel)]="newSeller.name" name="name" placeholder="Name" required />
+    <input [(ngModel)]="newSeller.contactHandle" name="contactHandle" placeholder="Contact handle" />
+
+    <select [(ngModel)]="newSeller.pricingModel" name="pricingModel">
+      <option *ngFor="let p of pricingModels" [ngValue]="p">{{ p }}</option>
+    </select>
+
+    <input [(ngModel)]="newSeller.notes" name="notes" placeholder="Notes" />
+
+    <button type="submit">Add seller</button>
+  </form>
+</div>
