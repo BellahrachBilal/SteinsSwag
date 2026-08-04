@@ -1,0 +1,24 @@
+<div class="category-page">
+  <h2>Categories</h2>
+
+  <table class="category-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Items</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories()">
+        <td>{{ category.name }}</td>
+        <td>{{ category.itemCount }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Add category</h3>
+  <form (ngSubmit)="addCategory()">
+    <input [(ngModel)]="newCategory.name" name="name" placeholder="Category name" required />
+    <button type="submit">Add category</button>
+  </form>
+</div>
