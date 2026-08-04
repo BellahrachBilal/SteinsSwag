@@ -1,0 +1,47 @@
+<div class="item-page">
+  <h2>Items</h2>
+
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Source</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items()">
+        <td>{{ item.name }}</td>
+        <td>{{ item.categoryName }}</td>
+        <td>&euro;{{ item.price }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.sourcePlatform }}</td>
+        <td><button (click)="deleteItem(item.id)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Add item</h3>
+  <form (ngSubmit)="addItem()">
+    <input [(ngModel)]="newItem.name" name="name" placeholder="Name" required />
+    <input [(ngModel)]="newItem.price" name="price" type="number" placeholder="Price" required />
+
+    <select [(ngModel)]="newItem.categoryId" name="categoryId" required>
+      <option [ngValue]="0" disabled>Select category</option>
+      <option *ngFor="let c of categories()" [ngValue]="c.id">{{ c.name }}</option>
+    </select>
+
+    <select [(ngModel)]="newItem.sourcePlatform" name="sourcePlatform">
+      <option *ngFor="let p of sourcePlatforms" [ngValue]="p">{{ p }}</option>
+    </select>
+
+    <select [(ngModel)]="newItem.condition" name="condition">
+      <option *ngFor="let c of conditions" [ngValue]="c">{{ c }}</option>
+    </select>
+
+    <button type="submit">Add item</button>
+  </form>
+</div>

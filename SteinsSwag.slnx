@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SteinsSwag.Api/SteinsSwag.Api.csproj" />
+  <Project Path="SteinsSwag.Application/SteinsSwag.Application.csproj" />
+  <Project Path="SteinsSwag.Domain/SteinsSwag.Domain.csproj" />
+  <Project Path="SteinsSwag.Infrastructure/SteinsSwag.Infrastructure.csproj" />
+</Solution>
