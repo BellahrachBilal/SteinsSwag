@@ -36,6 +36,9 @@ namespace SteinsSwag.Application.Services
 
         public async Task<PlacementSlotDto> CreatePlacementSlotAsync(CreatePlacementSlotDto dto)
         {
+            if (dto.EndDate.HasValue && dto.EndDate.Value <= dto.StartDate)
+                throw new ValidationException("EndDate must be after StartDate.");
+
             var slot = new PlacementSlot
             {
                 SellerId = dto.SellerId,
