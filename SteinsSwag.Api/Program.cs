@@ -3,6 +3,7 @@ using SteinsSwag.Application.Interfaces;
 using SteinsSwag.Application.Services;
 using SteinsSwag.Infrastructure.Data;
 using Scalar.AspNetCore;
+using SteinsSwag.Api.Middleware;
 namespace SteinsSwag.Api
 {
     public class Program
@@ -18,6 +19,8 @@ namespace SteinsSwag.Api
             builder.Services.AddScoped<IItemService, ItemService>();
             builder.Services.AddScoped<ISellerService, SellerService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
             //controllers + JSON enum-as-string
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
@@ -37,6 +40,7 @@ namespace SteinsSwag.Api
             });
             var app = builder.Build();
 
+            app.UseExceptionHandler();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

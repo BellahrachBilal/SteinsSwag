@@ -41,15 +41,15 @@ public class ItemsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, UpdateItemDto dto)
     {
-        var updated = await _itemService.UpdateAsync(id, dto);
-        return updated ? NoContent() : NotFound();
+        await _itemService.UpdateAsync(id, dto);
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _itemService.DeleteAsync(id);
-        return deleted ? NoContent() : NotFound();
+        await _itemService.DeleteAsync(id);
+        return NoContent();
     }
 
 }

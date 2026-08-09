@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SteinsSwag.Application.DTOs;
 using SteinsSwag.Domain.Entities;
 using SteinsSwag.Infrastructure.Data;
-using SteinsSwag.Application.Interfaces;
+using SteinsSwag.Domain.Exceptions;
 
 namespace SteinsSwag.Application.Services
 {
@@ -28,6 +28,10 @@ namespace SteinsSwag.Application.Services
 
         public async Task<CategoryDto> CreateAsync(CreateCategoryDto dto)
         {
+            var exists = await _context.Categories.AnyAsync(c => c.Name == dto.Name);
+            if (exists)
+                throw new ValidationException($"A category named '{dto.Name}' already exists.");
+
             var category = new Category { Name = dto.Name };
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();

@@ -10,7 +10,7 @@ namespace SteinsSwag.Application.Interfaces
         Task<IEnumerable<SellerDto>> GetAllAsync();
         Task<SellerDto?> GetByIdAsync(int id);
         Task<SellerDto> CreateAsync(CreateSellerDto dto);
-        Task<bool> DeleteAsync(int id);
+        Task DeleteAsync(int id);
 
         Task<IEnumerable<PlacementSlotDto>> GetPlacementSlotsAsync(int sellerId);
         Task<PlacementSlotDto> CreatePlacementSlotAsync(CreatePlacementSlotDto dto);

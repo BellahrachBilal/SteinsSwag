@@ -3,6 +3,7 @@ using SteinsSwag.Application.DTOs;
 using SteinsSwag.Application.Interfaces;
 using SteinsSwag.Domain.Entities;
 using SteinsSwag.Domain.Enums;
+using SteinsSwag.Domain.Exceptions;
 using SteinsSwag.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -58,14 +59,35 @@ namespace SteinsSwag.Application.Services
             return (await GetByIdAsync(item.Id))!;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task UpdateAsync(int id, UpdateItemDto dto)
         {
             var item = await _context.Items.FindAsync(id);
-            if(item is null) return false;
+            if (item is null)
+                throw new NotFoundException($"Item with id {id} not found.");
+
+            item.Name = dto.Name;
+            item.Description = dto.Description;
+            item.Brand = dto.Brand;
+            item.Price = dto.Price;
+            item.ImageUrl = dto.ImageUrl;
+            item.CategoryId = dto.CategoryId;
+            item.SellerId = dto.SellerId;
+            item.SourcePlatform = dto.SourcePlatform;
+            item.Condition = dto.Condition;
+            item.Status = dto.Status;
+            item.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var item = await _context.Items.FindAsync(id);
+            if (item is null)
+                throw new NotFoundException($"Item with id {id} not found.");
 
             _context.Items.Remove(item);
             await _context.SaveChangesAsync();
-            return true;
         }
 
 
@@ -78,25 +100,7 @@ namespace SteinsSwag.Application.Services
             return item is null ? null : ToDto(item);
         }
 
-        public async Task<bool> UpdateAsync(int id, UpdateItemDto dto)
-        {
-            var item = await _context.Items.FindAsync(id);
-            if (item is null) return false;
-
-            item.Name = dto.Name;
-            item.Description = dto.Description;
-            item.Brand= dto.Brand;
-            item.Price = dto.Price;
-            item.ImageUrl = dto.ImageUrl;
-            item.CategoryId = dto.CategoryId;
-            item.SellerId = dto.SellerId;
-            item.SourcePlatform = dto.SourcePlatform;
-            item.Condition = dto.Condition;
-            item.Status = dto.Status;
-            item.UpdatedAt = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        
         private static ItemDto ToDto(Item i) => new(
            i.Id, i.Name, i.Description, i.Brand, i.Price, i.ImageUrl,
            i.CategoryId, i.Category.Name,

@@ -11,7 +11,7 @@ namespace SteinsSwag.Application.Interfaces
         Task<IEnumerable<ItemDto>> GetAllAsync(int? categoryId = null, ItemStatus? status = null);
         Task<ItemDto?> GetByIdAsync(int id);
         Task<ItemDto> CreateAsync(CreateItemDto dto);
-        Task<bool> UpdateAsync(int id, UpdateItemDto dto);
-        Task<bool> DeleteAsync(int id);
+        Task UpdateAsync(int id, UpdateItemDto dto);
+        Task DeleteAsync(int id);
     }
 }

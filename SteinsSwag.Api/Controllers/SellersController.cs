@@ -36,8 +36,8 @@ public class SellersController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _sellerService.DeleteAsync(id);
-        return deleted ? NoContent() : NotFound();
+        await _sellerService.DeleteAsync(id);
+        return NoContent();
     }
     // GET /api/sellers/5/placement-slots
     [HttpGet("{sellerId:int}/placement-slots")]

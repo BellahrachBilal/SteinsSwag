@@ -2,6 +2,7 @@
 using SteinsSwag.Application.DTOs;
 using SteinsSwag.Application.Interfaces;
 using SteinsSwag.Domain.Entities;
+using SteinsSwag.Domain.Exceptions;
 using SteinsSwag.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -55,14 +56,14 @@ namespace SteinsSwag.Application.Services
 
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var seller = await _context.Sellers.FindAsync(id);
-            if (seller is null) return false;
+            if (seller is null)
+                throw new NotFoundException($"Seller with id {id} not found.");
 
             _context.Sellers.Remove(seller);
             await _context.SaveChangesAsync();
-            return true;
         }
 
         public async Task<IEnumerable<SellerDto>> GetAllAsync()
