@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using SteinsSwag.Domain.Enums;
 
@@ -23,24 +24,24 @@ namespace SteinsSwag.Application.DTOs;
 );
 
     public record CreateItemDto(
-        string Name,
+        [Required, StringLength(200, MinimumLength =1)] string Name,
         string? Description,
         string? Brand,
-        decimal Price,
+        [Range(0.01,100000)]decimal Price,
         string? ImageUrl,
-        int CategoryId,
+        [Range(1, int.MaxValue,ErrorMessage ="A valid CategoryId is required.")]int CategoryId,
         int? SellerId,
         SourcePlatform SourcePlatform,
         ItemCondition Condition
     );
 
     public record UpdateItemDto(
-        string Name,
+        [Required, StringLength(200, MinimumLength = 1)] string Name,
         string? Description,
         string? Brand,
-        decimal Price,
+        [Range(0.01, 100000)] decimal Price,
         string? ImageUrl,
-        int CategoryId,
+        [Range(1, int.MaxValue, ErrorMessage = "A valid CategoryId is required.")] int CategoryId,
         int? SellerId,
         SourcePlatform SourcePlatform,
         ItemCondition Condition,

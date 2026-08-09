@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SteinsSwag.Application.DTOs;
@@ -9,5 +10,5 @@ public record CategoryDto(
     string Name,
     int ItemCount
 );
-public record CreateCategoryDto(string Name);
+public record CreateCategoryDto([Required, StringLength(200, MinimumLength = 1)] string Name);
 
