@@ -1,6 +1,13 @@
 <div class="item-page">
   <h2>Items</h2>
 
+  @if (loading()) {
+  <div>Loading...</div>
+  }
+  @if (error()) {
+  <div class="error-message">{{ error() }}</div>
+  }
+
   <table class="item-table">
     <thead>
       <tr>
@@ -13,14 +20,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of items()">
+      @for (item of items(); track item.id) {
+      <tr>
         <td>{{ item.name }}</td>
         <td>{{ item.categoryName }}</td>
         <td>&euro;{{ item.price }}</td>
         <td>{{ item.status }}</td>
         <td>{{ item.sourcePlatform }}</td>
-        <td><button (click)="deleteItem(item.id)">Delete</button></td>
+        <td><button (click)="deleteItem(item.id, item.name)">Delete</button></td>
       </tr>
+      }
     </tbody>
   </table>
 
@@ -31,17 +40,23 @@
 
     <select [(ngModel)]="newItem.categoryId" name="categoryId" required>
       <option [ngValue]="0" disabled>Select category</option>
-      <option *ngFor="let c of categories()" [ngValue]="c.id">{{ c.name }}</option>
+      @for (c of categories(); track c.id) {
+      <option [ngValue]="c.id">{{ c.name }}</option>
+      }
     </select>
 
     <select [(ngModel)]="newItem.sourcePlatform" name="sourcePlatform">
-      <option *ngFor="let p of sourcePlatforms" [ngValue]="p">{{ p }}</option>
+      @for (p of sourcePlatforms; track p) {
+      <option [ngValue]="p">{{ p }}</option>
+      }
     </select>
 
     <select [(ngModel)]="newItem.condition" name="condition">
-      <option *ngFor="let c of conditions" [ngValue]="c">{{ c }}</option>
+      @for (c of conditions; track c) {
+      <option [ngValue]="c">{{ c }}</option>
+      }
     </select>
 
-    <button type="submit">Add item</button>
+    <button type="submit" [disabled]="loading()">Add item</button>
   </form>
 </div>

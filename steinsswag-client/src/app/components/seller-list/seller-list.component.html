@@ -1,6 +1,13 @@
 <div class="seller-page">
   <h2>Sellers</h2>
 
+  @if (loading()) {
+  <div>Loading...</div>
+  }
+  @if (error()) {
+  <div class="error-message">{{ error() }}</div>
+  }
+
   <table class="seller-table">
     <thead>
       <tr>
@@ -13,14 +20,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let seller of sellers()">
+      @for (seller of sellers(); track seller.id) {
+      <tr>
         <td>{{ seller.name }}</td>
         <td>{{ seller.contactHandle }}</td>
         <td>{{ seller.pricingModel }}</td>
         <td>{{ seller.itemCount }}</td>
         <td>{{ seller.notes }}</td>
-        <td><button (click)="deleteSeller(seller.id)">Delete</button></td>
+        <td><button (click)="deleteSeller(seller.id, seller.name)">Delete</button></td>
       </tr>
+      }
     </tbody>
   </table>
 
@@ -30,11 +39,13 @@
     <input [(ngModel)]="newSeller.contactHandle" name="contactHandle" placeholder="Contact handle" />
 
     <select [(ngModel)]="newSeller.pricingModel" name="pricingModel">
-      <option *ngFor="let p of pricingModels" [ngValue]="p">{{ p }}</option>
+      @for (p of pricingModels; track p) {
+      <option [ngValue]="p">{{ p }}</option>
+      }
     </select>
 
     <input [(ngModel)]="newSeller.notes" name="notes" placeholder="Notes" />
 
-    <button type="submit">Add seller</button>
+    <button type="submit" [disabled]="loading()">Add seller</button>
   </form>
 </div>

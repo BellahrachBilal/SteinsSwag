@@ -1,58 +1,79 @@
-import {Component, OnInit, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {Seller, CreateSeller, PricingModel} from '../../models/seller.model';
-import {SellerService} from '../../services/seller.service';
-
+import { Component, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Seller, CreateSeller, PricingModel } from '../../models/seller.model';
+import { SellerService } from '../../services/seller.service';
+import { extractErrorMessage } from '../../utils/error-utils';
 
 @Component({
   selector: 'app-seller-list',
   standalone: true,
-    imports: [CommonModule, FormsModule],
-    templateUrl: './seller-list.component.html',
+  imports: [FormsModule],
+  templateUrl: './seller-list.component.html',
 })
-
 export class SellerListComponent implements OnInit {
-    sellers = signal<Seller[]>([]);
-    pricingModels = Object.values(PricingModel);
-    
-    newSeller: CreateSeller = {
-        name: '',
-        contactHandle: '',
-        pricingModel: PricingModel.FixedRate,
-        notes: '',
-    };
+  sellers = signal<Seller[]>([]);
+  loading = signal(false);
+  error = signal<string | null>(null);
 
-    constructor(private sellerService: SellerService) { }
+  pricingModels = Object.values(PricingModel);
 
-    ngOnInit(): void {
+  newSeller: CreateSeller = this.emptySeller();
+
+  constructor(private sellerService: SellerService) {}
+
+  ngOnInit(): void {
+    this.loadSellers();
+  }
+
+  loadSellers(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.sellerService.getAll().subscribe({
+      next: data => {
+        this.sellers.set(data);
+        this.loading.set(false);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Failed to load sellers', err);
+        this.error.set(extractErrorMessage(err, 'Failed to load sellers. Please try again.'));
+        this.loading.set(false);
+      }
+    });
+  }
+
+  addSeller(): void {
+    if (!this.newSeller.name) return;
+
+    this.sellerService.create(this.newSeller).subscribe({
+      next: () => {
         this.loadSellers();
-    }
+        this.newSeller = this.emptySeller();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Failed to add seller', err);
+        this.error.set(extractErrorMessage(err, 'Failed to add seller. Please try again.'));
+      }
+    });
+  }
 
-    loadSellers(): void {
-        this.sellerService.getAll().subscribe(data => this.sellers.set(data));
-    }
+  deleteSeller(sellerId: number, sellerName: string): void {
+    this.sellerService.delete(sellerId).subscribe({
+      next: () => this.loadSellers(),
+      error: (err: HttpErrorResponse) => {
+        console.error('Failed to delete seller', err);
+        this.error.set(`Could not delete "${sellerName}" — it may have already been removed.`);
+      }
+    });
+  }
 
-    addSeller(): void {
-        if (!this.newSeller.name) return;
-        this.sellerService.create(this.newSeller).subscribe(() => {
-            this.loadSellers();
-            this.resetNewSeller();
-        });
-    }
-
-    resetNewSeller(): void {
-        this.newSeller = {
-            name: '',
-            contactHandle: '',
-            pricingModel: PricingModel.FixedRate,
-            notes: '',
-        };
-    }
-
-    deleteSeller(sellerId: number): void {
-        this.sellerService.delete(sellerId).subscribe(() => this.loadSellers());
-    }
-
+  private emptySeller(): CreateSeller {
+    return {
+      name: '',
+      contactHandle: '',
+      pricingModel: PricingModel.FixedRate,
+      notes: '',
+    };
+  }
 }
-
