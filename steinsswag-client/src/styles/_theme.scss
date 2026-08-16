@@ -1,0 +1,37 @@
+:root {
+  color-scheme: dark;
+  --radius: 0.25rem;
+
+  // deep blacks
+  --background: oklch(0.08 0.004 260);
+  --foreground: oklch(0.97 0 0);
+
+  --card: oklch(0.12 0.006 260);
+  --card-foreground: oklch(0.97 0 0);
+  --popover: oklch(0.1 0.006 260);
+  --popover-foreground: oklch(0.97 0 0);
+
+  // vibrant cyan accent
+  --primary: oklch(0.75 0.14 215);
+  --primary-foreground: oklch(0.15 0.02 230);
+
+  // electric blue secondary
+  --secondary: oklch(0.62 0.19 250);
+  --secondary-foreground: oklch(0.99 0 0);
+
+  --muted: oklch(0.18 0.005 260);
+  --muted-foreground: oklch(0.6 0.01 260);
+
+  --accent: oklch(0.62 0.19 250);
+  --accent-foreground: oklch(0.99 0 0);
+
+  --destructive: oklch(0.52 0.21 22);
+
+  --border: oklch(0.24 0.006 260);
+  --input: oklch(0.24 0.006 260);
+  --ring: oklch(0.75 0.14 215);
+
+  --font-display: 'Anton', sans-serif;
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+}

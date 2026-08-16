@@ -5,9 +5,14 @@ import { CategoryListComponent } from './components/category-list/category-list.
 import { PlacementSlotListComponent } from './components/placement-slot-list/placement-slot-list.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'items', pathMatch: 'full' },
-  { path: 'items', component: ItemListComponent },
-  { path: 'sellers', component: SellerListComponent },
-  { path: 'categories', component: CategoryListComponent },
-  { path: 'placement-slots', component: PlacementSlotListComponent },
+  { path: '', redirectTo: 'store', pathMatch: 'full' },
+
+  // Admin
+  { path: 'admin/items', component: ItemListComponent },
+  { path: 'admin/sellers', component: SellerListComponent },
+  { path: 'admin/categories', component: CategoryListComponent },
+  { path: 'admin/placement-slots', component: PlacementSlotListComponent },
+
+  // Storefront (public)
+  { path: 'store', loadComponent: () => import('./store/store-home/store-home.component').then(m => m.StoreHomeComponent) },
 ];
