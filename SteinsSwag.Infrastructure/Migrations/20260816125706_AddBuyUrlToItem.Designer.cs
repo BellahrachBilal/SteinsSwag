@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SteinsSwag.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using SteinsSwag.Infrastructure.Data;
 namespace SteinsSwag.Infrastructure.Migrations
 {
     [DbContext(typeof(SteinsSwagDbContext))]
-    partial class SteinsSwagDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260816125706_AddBuyUrlToItem")]
+    partial class AddBuyUrlToItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

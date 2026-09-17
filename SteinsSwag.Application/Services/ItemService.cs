@@ -46,6 +46,7 @@ namespace SteinsSwag.Application.Services
                 Brand = dto.Brand,
                 Price = dto.Price,
                 ImageUrl = dto.ImageUrl,
+                BuyUrl = dto.BuyUrl,
                 CategoryId = dto.CategoryId,
                 SellerId = dto.SellerId,
                 SourcePlatform = dto.SourcePlatform,
@@ -70,6 +71,7 @@ namespace SteinsSwag.Application.Services
             item.Brand = dto.Brand;
             item.Price = dto.Price;
             item.ImageUrl = dto.ImageUrl;
+            item.BuyUrl = dto.BuyUrl;
             item.CategoryId = dto.CategoryId;
             item.SellerId = dto.SellerId;
             item.SourcePlatform = dto.SourcePlatform;
@@ -102,7 +104,7 @@ namespace SteinsSwag.Application.Services
 
         
         private static ItemDto ToDto(Item i) => new(
-           i.Id, i.Name, i.Description, i.Brand, i.Price, i.ImageUrl,
+           i.Id, i.Name, i.Description, i.Brand, i.Price, i.ImageUrl, i.BuyUrl,
            i.CategoryId, i.Category.Name,
            i.SellerId, i.Seller?.Name,
            i.SourcePlatform, i.Condition, i.Status, i.CreatedAt

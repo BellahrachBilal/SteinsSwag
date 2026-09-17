@@ -1,0 +1,48 @@
+<div class="store-page">
+  @if (loading()) {
+  <div class="status-text">Loading drops...</div>
+  }
+  @if (error()) {
+  <div class="status-text error">{{ error() }}</div>
+  }
+
+  <div class="filter-bar">
+    <button
+      class="filter-pill"
+      [class.active]="selectedCategoryId() === null"
+      (click)="selectCategory(null)">
+      ALL
+    </button>
+    @for (category of categories(); track category.id) {
+    <button
+      class="filter-pill"
+      [class.active]="selectedCategoryId() === category.id"
+      (click)="selectCategory(category.id)">
+      {{ category.name | uppercase }}
+    </button>
+    }
+  </div>
+
+  <div class="product-grid">
+    @for (item of filteredItems(); track item.id) {
+    <div class="product-card">
+      <div class="product-image">
+        @if (item.imageUrl) {
+        <img [src]="item.imageUrl" [alt]="item.name" />
+        }
+      </div>
+      <div class="product-info">
+  <span class="product-category">{{ item.categoryName | uppercase }}</span>
+  <h3 class="product-title">{{ item.name }}</h3>
+  <span class="product-price">&euro;{{ item.price }}</span>
+
+  @if (item.buyUrl) {
+  <a [href]="item.buyUrl" target="_blank" rel="noopener noreferrer" class="buy-button">
+    Buy via Kakobuy →
+  </a>
+  }
+</div>
+    </div>
+    }
+  </div>
+</div>

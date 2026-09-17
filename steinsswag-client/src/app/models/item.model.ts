@@ -29,6 +29,7 @@ export interface Item {
     brand?: string;
     price: number;
     imageUrl?: string;
+    buyUrl?: string;
     categoryId: number;
     categoryName?: string;
     sellerId?: number;
@@ -45,6 +46,7 @@ export interface CreateItem {
   brand?: string;
   price: number;
   imageUrl?: string;
+  buyUrl?: string;
   categoryId: number;
   sellerId?: number;
   sourcePlatform: SourcePlatform;

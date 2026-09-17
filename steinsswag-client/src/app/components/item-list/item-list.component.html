@@ -37,6 +37,8 @@
   <form (ngSubmit)="addItem()">
     <input [(ngModel)]="newItem.name" name="name" placeholder="Name" required />
     <input [(ngModel)]="newItem.price" name="price" type="number" placeholder="Price" required />
+    <input [(ngModel)]="newItem.buyUrl" name="buyUrl" placeholder="Kakobuy link" />
+    
 
     <select [(ngModel)]="newItem.categoryId" name="categoryId" required>
       <option [ngValue]="0" disabled>Select category</option>

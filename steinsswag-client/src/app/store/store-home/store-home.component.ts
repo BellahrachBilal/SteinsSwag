@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { ProductGridComponent } from '../product-grid/product-grid.component';
 
 @Component({
   selector: 'app-store-home',
   standalone: true,
-  template: `<div class="p3-stripes" style="min-height: 100vh;"><h1 style="color: var(--foreground); padding: 2rem;">Store coming soon</h1></div>`,
+  imports: [ProductGridComponent],
+  template: `<app-product-grid></app-product-grid>`,
 })
 export class StoreHomeComponent {}
